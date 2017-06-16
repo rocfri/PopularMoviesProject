@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">PopularMoviesProject</string>
+
+    <string name="dummy_text">Some text to put into layout.</string>
+
+
+    <string-array name="spinner_list_item_array">
+        <item>Popular Movies</item>
+        <item>Top Rated</item>
+
+    </string-array>
+</resources>
