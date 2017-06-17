@@ -8,24 +8,25 @@ import java.util.ArrayList;
 
 public class CreateList {
 
-    //private String movie_title;
+    private String movie_title;
     private Integer image_id;
 
-    //public String getImage_title() {
-     //   return image_title;
-    //}
+    public String getImage_title() {
+        return movie_title;
+    }
 
-    //public void setImage_title(String android_version_name) {
-    //    this.image_title = android_version_name;
-    //}
+    public void setImage_title(String movie_name) {
+        this.movie_title = movie_name;
+    }
 
     public Integer getImage_ID() {
         return image_id;
     }
 
-    public void setImage_ID(Integer android_image_url) {
 
-        this.image_id = android_image_url;
+    public void setImage_ID(Integer poster_url) {
+
+        this.image_id = poster_url;
     }
 
 }

@@ -59,9 +59,9 @@ public class MainActivity extends AppCompatActivity
         new FetchMovieTask().execute(movieRequestURL);
     }
 
-    public class FetchMovieTask extends AsyncTask<String, Void, String[]>{
+    public class FetchMovieTask extends AsyncTask<URL, Void, String>{
 
-        @Override protected String[] doInBackground(String... params){
+        @Override protected String doInBackground(URL... params){
 
             String moviesURL = params[0];
 
@@ -76,12 +76,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override protected onPostExecute(String[] movieData ){
-
+//Not sure how to get array list passed into here and then call prepareData().
         }
 
-    //I looked up two tutorials besides the class instructions and it's resulted in an ugly mess.
-        //I had a gallery/recycle view working, but since I'm trying to get info from JSON been trying to figure out how I could put it into
-        //the gallery framework I started with...
     }
 
 
@@ -107,15 +104,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void prepareImage() {
-
-
-
-        }
-        // Need to make image clicked on match image displayed. Array objects already assign for create list
-        //figure out way to take single array object and assign to display...
-        //Set array object as object from mPics[]
-        //if statement to get corresponding pic. oneImage == image_id (if can access array.)
 
 
     //Actionbar Spinner
