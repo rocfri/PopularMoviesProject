@@ -6,13 +6,13 @@
     android:background="#000000">
 
     <TextView
-        android:id="@+id/textView_title"
+        android:id="@+id/cellView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
 
     <ImageView
-        android:id="@+id/imageView_thmb"
+        android:id="@+id/cellView_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />

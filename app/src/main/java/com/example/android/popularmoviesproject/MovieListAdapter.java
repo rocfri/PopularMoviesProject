@@ -10,14 +10,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.android.popularmoviesproject.utilities.MovieData;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import static android.R.attr.fastScrollOverlayPosition;
 import static android.R.attr.onClick;
+import static android.R.attr.thumbPosition;
 import static android.R.attr.width;
 import static android.content.ContentValues.TAG;
 
@@ -27,8 +31,9 @@ import static android.content.ContentValues.TAG;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
 
-    private ArrayList<CreateList> movieArray;
+    private List<MovieData> movieArray = Collections.emptyList();
     private Context context;
+    int currentPos = 0;
 
     //Click Listener
     final private ListItemClickListener mOnClickListener;
@@ -39,12 +44,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         void onListItemClick(int clickedItemIndex);
     }
 
-    public MovieListAdapter(Context context, ArrayList<String> imgArray, ListItemClickListener listener){
+    public MovieListAdapter(Context context, List<MovieData> movieArray, ListItemClickListener listener){
         this.movieArray = movieArray;
         this.context = context;
 
         //Click Listener
-        mNumberItems = imgArray.size();
         mOnClickListener = listener;
         viewHolderCount = 0;
     }
@@ -64,40 +68,55 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     @Override
     public void onBindViewHolder(MovieListAdapter.ViewHolder viewHolder, int i){
+        MovieData current = movieArray.get(currentPos);
+        viewHolder.textMovieTitle.setText(current.movieTitle);
+        viewHolder.textMovieAvgRating.setText("Average user Rating: " + current.movieAvgRating);
+        viewHolder.textMovieDate.setText("Release Date: " + current.movieReleaseDate);
+        viewHolder.textMoviePlot.setText("Plot Synapsis: " + current.moviePlot);
 
-        //viewHolder.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
         //viewHolder.img.setImageResource((galleryList.get(i).getImage_ID()));
-        Picasso.with(context).load("https://image.tmdb.org/t/p/w185/" + ).resize(width, (int) (width*1.5))
+        Picasso.with(context).load("https://image.tmdb.org/t/p/w185/" + current.moviePoster )
+                //.placeholder(R.drawbale.ic_img_error)
+                //.error(R.drawable.ic_img_error)
                 .centerCrop().into(viewHolder.img);
     }
 
 
 
-    @Override
+   @Override
     public int getItemCount(){
 
-        return mNumberItems;
+       return movieArray.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder /*implements OnClickListener*/ {
 
-        private TextView title;
-        private ImageView img;
+        TextView textMovieTitle;
+        TextView textMovieAvgRating;
+        TextView textMovieDate;
+        TextView textMoviePlot;
+
+         ImageView img;
 
         public ViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.textView_title);
-            img = (ImageView) view.findViewById(R.id.imageView_thmb);
-            view.setOnClickListener(this);
+            textMovieTitle = (TextView) view.findViewById(R.id.movie_title_dtv);
+            textMovieTitle = (TextView) view.findViewById(R.id.cellView_title);
+            textMovieAvgRating = (TextView) view.findViewById(R.id.average_rating_dtv);
+            textMovieDate = (TextView) view.findViewById(R.id.movie_date_dtv);
+            textMoviePlot = (TextView) view.findViewById(R.id.movies_blurb_dtv);
+            img = (ImageView) view.findViewById(R.id.cellView_img);
+            img = (ImageView) view.findViewById(R.id.main_poster_dtv);
+            //view.setOnClickListener(this);
 
         }
 
 
-        @Override
+/*        @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
             mOnClickListener.onListItemClick(clickedPosition);
 
-        }
+        }*/
     }
 }

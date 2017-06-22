@@ -4,6 +4,7 @@ package com.example.android.popularmoviesproject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,18 +13,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.GridLayout;
+
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.popularmoviesproject.utilities.MovieData;
 import com.example.android.popularmoviesproject.utilities.NetworkUtil;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
@@ -32,14 +39,13 @@ public class MainActivity extends AppCompatActivity
     private ImageView oneImage;
     private Toast mToast;
     private TextView movieTitle;
-    static ArrayList<String> posters;
+    static List<MovieData> movieArray;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageView oneImage = (ImageView) findViewById(R.id.imageView);
         //Recycle View
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rv_galleryView);
         recyclerView.setHasFixedSize(true);
@@ -47,63 +53,52 @@ public class MainActivity extends AppCompatActivity
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),3);
         recyclerView.setLayoutManager(layoutManager);
 
-        ArrayList<CreateList> movieArray = prepareData();
-        //Don't understand why "this" works as a parameter here.
-        MovieListAdapter adapter = new MovieListAdapter(getApplicationContext(), movieArray, this);
+        MovieListAdapter adapter = new MovieListAdapter(getApplicationContext(),movieArray, this);
         recyclerView.setAdapter(adapter);
+
+        new FetchMovieTask().execute();
 
     }
 //From here to onPostExecutre I'm not sure what I should pass in...or do exactly.
-    private void loadMovieData(){
-        URL movieRequestURL = NetworkUtil.buildURL(mdbSortQuery);
-        new FetchMovieTask().execute(movieRequestURL);
-    }
 
     public class FetchMovieTask extends AsyncTask<URL, Void, String>{
 
         @Override protected String doInBackground(URL... params){
-
-            String moviesURL = params[0];
+            URL moviesURL = params[0];
 
             try{
-                movieQueryResults = NetworkUtil.getResponseFromHttpUrl(moviesURL);
+                String movieResult = NetworkUtil.getResponseFromHttpUrl(moviesURL);
+                return movieResult;
+
             }catch(IOException e){
                 e.printStackTrace();
                 return null;
             }
-
-
         }
 
-        @Override protected onPostExecute(String[] movieData ){
-//Not sure how to get array list passed into here and then call prepareData().
-        }
+        @Override protected void onPostExecute(String movieResult){
+        //JSON
+        List<MovieData> movieArray = new ArrayList<>();
 
-    }
+            try {
+                for (int i=0; i <= 15; ++i ) {
+                JSONArray jArray = new JSONArray(movieResult);
+                JSONObject movieObject = jArray.getJSONObject(i);
+                MovieData movieData = new MovieData();
+                movieData.moviePoster = movieObject.getString("poster_path");
+                movieData.movieAvgRating = movieObject.getInt("vote_average");
+                movieData.movieTitle = movieObject.getString("title");
+                movieData.movieReleaseDate = movieObject.getString("release_date");
+                movieData.moviePlot = movieObject.getString("overview");
+                movieArray.add(movieData);
+                }//for loop
 
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }//catch
+        }//PostExecute
 
-    final private Integer mPics[] ={
-            R.drawable.sample_0,
-            R.drawable.sample_1,
-            R.drawable.sample_2,
-            R.drawable.sample_3,
-            R.drawable.sample_4,
-            R.drawable.sample_5,
-            R.drawable.sample_6,
-            R.drawable.sample_7,
-    };
-
-    private ArrayList<CreateList> prepareData() {
-        ArrayList<CreateList> theImages = new ArrayList<>();
-        for (int i = 0; i < 20; i++){
-            CreateList createList = new CreateList();
-            createList.setImage_ID(mPics[i]);
-            theImages.add(createList);
-        }
-        return theImages;
-
-    }
-
+    }//AsyncTask
 
 
     //Actionbar Spinner
@@ -121,7 +116,6 @@ public class MainActivity extends AppCompatActivity
         spinner.setAdapter(adapter);
         return true;
     }
-
 
 
     @Override
@@ -143,15 +137,10 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-}
+} //MAIN ACTIVITY
 
-//TODO(2) Details include Title, release date, movie poster, vote average and plot summary
 
-//TODO(3)Connect main to detail activity and intent
 //TODO(4) Add Menu items/ sorting (Spinnger aka drop down or menu or toggle)
 
-//TODO(5) Connect API match components
-//TODO(6) Give upward nav in manifest by making Detail child of Main.
 //TODO (7) In a background thread, app queries the /movie/popular or /movie/top_rated API for the sort criteria specified in the settings menu.
 
-//TODO(EXTRA) sort best movies of 90s (Nastalgia)

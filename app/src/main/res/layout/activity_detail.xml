@@ -7,32 +7,55 @@
     tools:context="com.example.android.popularmoviesproject.DetailActivity">
 
    <TextView
-        android:id="@+id/movies_blurb_tv"
+       android:id="@+id/movie_title_dtv"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentStart="true"
+       android:layout_alignParentTop="true"
+       android:layout_toStartOf="@+id/main_poster_dtv"
+       android:text="TITLE"
+       android:textAlignment="textEnd"
+       android:textSize="24sp" />
+   <TextView
+        android:id="@+id/movies_blurb_dtv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:padding="10dp"
         android:textSize="20sp"
         android:text="@string/dummy_text"
 
-       android:layout_alignParentTop="true"
-       android:layout_alignParentStart="true"
-       android:layout_toStartOf="@+id/imageView" />
+       android:layout_below="@+id/main_poster_dtv"
+       android:layout_alignParentEnd="true"
+       android:layout_alignParentStart="true" />
 
    <ImageView
-       android:id="@+id/imageView"
+       android:id="@+id/main_poster_dtv"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        app:srcCompat="@drawable/sample_0"
        android:layout_alignParentTop="true"
        android:layout_alignParentEnd="true" />
 
-   <RatingBar
-       android:id="@+id/ratingBar"
+   <TextView
+       android:id="@+id/movie_date_dtv"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
+       android:layout_alignParentStart="true"
+       android:layout_below="@id/movie_title_dtv"
+       android:layout_toStartOf="@+id/main_poster_dtv"
+       android:text="11/11/11"
+       android:textSize="16sp" />
+   <TextView
+       android:id="@+id/average_rating_dtv"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentStart="true"
+       android:layout_below="@+id/movie_title_dtv"
        android:layout_marginTop="42dp"
-       android:layout_below="@+id/imageView"
-       android:layout_alignParentEnd="true" />
+       android:layout_toStartOf="@+id/main_poster_dtv"
+       android:text="1-10"
+       android:textAlignment="textEnd"
+       android:textSize="24sp" />
 
 
 </RelativeLayout>
