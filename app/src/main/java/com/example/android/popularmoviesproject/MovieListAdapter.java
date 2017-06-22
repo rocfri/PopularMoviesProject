@@ -32,6 +32,7 @@ import static android.content.ContentValues.TAG;
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
 
     private List<MovieData> movieArray = Collections.emptyList();
+    MovieData current;
     private Context context;
     int currentPos = 0;
 
@@ -55,20 +56,20 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
 
     @Override
-    public MovieListAdapter.ViewHolder onCreateViewHolder (ViewGroup viewGroup, int i){
+    public MovieListAdapter.ViewHolder onCreateViewHolder (ViewGroup viewGroup, int viewType){
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cell_format, viewGroup, false);
 
         LayoutInflater inflater = LayoutInflater.from(context);
         MovieListAdapter.ViewHolder viewHolder = new MovieListAdapter.ViewHolder(view);
 
         viewHolderCount++;
-        return new ViewHolder(view);
+        return viewHolder;
 
     }
 
     @Override
-    public void onBindViewHolder(MovieListAdapter.ViewHolder viewHolder, int i){
-        MovieData current = movieArray.get(currentPos);
+    public void onBindViewHolder(MovieListAdapter.ViewHolder viewHolder, int position){
+        MovieData current = movieArray.get(position);
         viewHolder.textMovieTitle.setText(current.movieTitle);
         viewHolder.textMovieAvgRating.setText("Average user Rating: " + current.movieAvgRating);
         viewHolder.textMovieDate.setText("Release Date: " + current.movieReleaseDate);
@@ -89,7 +90,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
        return movieArray.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder /*implements OnClickListener*/ {
+    public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
         TextView textMovieTitle;
         TextView textMovieAvgRating;
@@ -107,16 +108,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
             textMoviePlot = (TextView) view.findViewById(R.id.movies_blurb_dtv);
             img = (ImageView) view.findViewById(R.id.cellView_img);
             img = (ImageView) view.findViewById(R.id.main_poster_dtv);
-            //view.setOnClickListener(this);
+            view.setOnClickListener(this);
 
         }
 
 
-/*        @Override
+     @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
             mOnClickListener.onListItemClick(clickedPosition);
 
-        }*/
+        }
     }
 }

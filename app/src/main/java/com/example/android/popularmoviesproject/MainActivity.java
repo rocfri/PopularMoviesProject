@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
         MovieListAdapter adapter = new MovieListAdapter(getApplicationContext(),movieArray, this);
         recyclerView.setAdapter(adapter);
 
-        new FetchMovieTask().execute();
+        new FetchMovieTask().execute(NetworkUtil.buildURL("mdbSortQuery"));
 
     }
 //From here to onPostExecutre I'm not sure what I should pass in...or do exactly.
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity
         @Override protected String doInBackground(URL... params){
             URL moviesURL = params[0];
 
+
             try{
                 String movieResult = NetworkUtil.getResponseFromHttpUrl(moviesURL);
                 return movieResult;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity
                 e.printStackTrace();
                 return null;
             }
+
         }
 
         @Override protected void onPostExecute(String movieResult){
@@ -81,8 +83,9 @@ public class MainActivity extends AppCompatActivity
         List<MovieData> movieArray = new ArrayList<>();
 
             try {
-                for (int i=0; i <= 15; ++i ) {
                 JSONArray jArray = new JSONArray(movieResult);
+                for (int i=0; i < jArray.length(); ++i ) {
+
                 JSONObject movieObject = jArray.getJSONObject(i);
                 MovieData movieData = new MovieData();
                 movieData.moviePoster = movieObject.getString("poster_path");
