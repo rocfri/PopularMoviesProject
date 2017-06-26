@@ -36,15 +36,15 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements MovieListAdapter.ListItemClickListener{
 
-    private ImageView oneImage;
     private Toast mToast;
-    private TextView movieTitle;
-    static List<MovieData> movieArray;
+    private List<MovieData> movieArray;
+    private RecyclerView recyclerview;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //Recycle View
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rv_galleryView);
@@ -55,20 +55,18 @@ public class MainActivity extends AppCompatActivity
 
         MovieListAdapter adapter = new MovieListAdapter(getApplicationContext(),movieArray, this);
         recyclerView.setAdapter(adapter);
-
+        List<MovieData> movieArray = new ArrayList<>();
         new FetchMovieTask().execute(NetworkUtil.buildURL("mdbSortQuery"));
 
     }
-//From here to onPostExecutre I'm not sure what I should pass in...or do exactly.
 
     public class FetchMovieTask extends AsyncTask<URL, Void, String>{
 
         @Override protected String doInBackground(URL... params){
             URL moviesURL = params[0];
 
-
             try{
-                String movieResult = NetworkUtil.getResponseFromHttpUrl(moviesURL);
+               String movieResult = NetworkUtil.getResponseFromHttpUrl(moviesURL);
                 return movieResult;
 
             }catch(IOException e){
@@ -78,12 +76,12 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        @Override protected void onPostExecute(String movieResult){
+        @Override public ArrayList<> onPostExecute(String movieResult){
         //JSON
-        List<MovieData> movieArray = new ArrayList<>();
 
             try {
                 JSONArray jArray = new JSONArray(movieResult);
+
                 for (int i=0; i < jArray.length(); ++i ) {
 
                 JSONObject movieObject = jArray.getJSONObject(i);
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity
                 movieData.movieReleaseDate = movieObject.getString("release_date");
                 movieData.moviePlot = movieObject.getString("overview");
                 movieArray.add(movieData);
-                }//for loop
+                return movieArray;}//for loop
 
             } catch (JSONException e) {
                 e.printStackTrace();

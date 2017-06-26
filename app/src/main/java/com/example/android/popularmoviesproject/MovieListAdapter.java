@@ -31,15 +31,14 @@ import static android.content.ContentValues.TAG;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
 
-    private List<MovieData> movieArray = Collections.emptyList();
+    List<MovieData> movieArray = Collections.emptyList();
     MovieData current;
     private Context context;
-    int currentPos = 0;
+
 
     //Click Listener
     final private ListItemClickListener mOnClickListener;
     private static int viewHolderCount;
-    private int mNumberItems;
 
     public interface ListItemClickListener {
         void onListItemClick(int clickedItemIndex);
@@ -73,12 +72,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         viewHolder.textMovieTitle.setText(current.movieTitle);
         viewHolder.textMovieAvgRating.setText("Average user Rating: " + current.movieAvgRating);
         viewHolder.textMovieDate.setText("Release Date: " + current.movieReleaseDate);
-        viewHolder.textMoviePlot.setText("Plot Synapsis: " + current.moviePlot);
+        viewHolder.textMoviePlot.setText("Plot Synopsis: " + current.moviePlot);
 
         //viewHolder.img.setImageResource((galleryList.get(i).getImage_ID()));
-        Picasso.with(context).load("https://image.tmdb.org/t/p/w185/" + current.moviePoster )
-                //.placeholder(R.drawbale.ic_img_error)
-                //.error(R.drawable.ic_img_error)
+        Picasso.with(context).load("https://image.tmdb.org/t/p/w185" + current.moviePoster )
+                .placeholder(R.drawable.sample_0)
+                .error(R.drawable.sample_3)
                 .centerCrop().into(viewHolder.img);
     }
 

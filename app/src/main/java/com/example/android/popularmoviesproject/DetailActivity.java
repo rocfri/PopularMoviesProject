@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
-    private ImageView oneImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
