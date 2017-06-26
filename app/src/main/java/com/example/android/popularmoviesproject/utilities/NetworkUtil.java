@@ -28,7 +28,7 @@ public class NetworkUtil {
     public static URL buildURL(String mdbPopularQuery) {
         Uri builtUri = Uri.parse(MBD_BASE_URL).buildUpon()
                 .appendPath(POPULAR)
-                .appendQueryParameter(API_KEY, "7561dd97827c9488a4bbe87ff1db0e22")
+                .appendQueryParameter(API_KEY, "")
                 .build();
 
         URL url = null;
