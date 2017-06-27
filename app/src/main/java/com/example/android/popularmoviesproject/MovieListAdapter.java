@@ -44,7 +44,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         void onListItemClick(int clickedItemIndex);
     }
 
-    public MovieListAdapter(Context context, List<MovieData> movieArray, ListItemClickListener listener){
+    public MovieListAdapter(Context context, List<MovieData> movieArray , ListItemClickListener listener){
         this.movieArray = movieArray;
         this.context = context;
 
@@ -66,6 +66,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     }
 
+
     @Override
     public void onBindViewHolder(MovieListAdapter.ViewHolder viewHolder, int position){
         MovieData current = movieArray.get(position);
@@ -73,15 +74,20 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         viewHolder.textMovieAvgRating.setText("Average user Rating: " + current.movieAvgRating);
         viewHolder.textMovieDate.setText("Release Date: " + current.movieReleaseDate);
         viewHolder.textMoviePlot.setText("Plot Synopsis: " + current.moviePlot);
-
+        viewHolder.setPoster(current.moviePoster);
         //viewHolder.img.setImageResource((galleryList.get(i).getImage_ID()));
-        Picasso.with(context).load("https://image.tmdb.org/t/p/w185" + current.moviePoster )
-                .placeholder(R.drawable.sample_0)
-                .error(R.drawable.sample_3)
-                .centerCrop().into(viewHolder.img);
     }
 
+    //I had setPoster auto create method and setter, but it won't take either
+    public void setPoster(String moviePoster) {
+        Picasso.with(context).load("https://image.tmdb.org/t/p/w185" + moviePoster)
+                .placeholder(R.drawable.sample_0)
+                .error(R.drawable.sample_3)
+                .centerCrop().into(img);
+    }
+    public void setMovies(){
 
+    }
 
    @Override
     public int getItemCount(){
@@ -118,5 +124,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
             mOnClickListener.onListItemClick(clickedPosition);
 
         }
+
     }
 }

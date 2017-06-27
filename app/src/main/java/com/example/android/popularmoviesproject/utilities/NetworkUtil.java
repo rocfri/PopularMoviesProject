@@ -53,22 +53,19 @@ public class NetworkUtil {
             scanner.useDelimiter("\\A");
 
             boolean hasInput = scanner.hasNext();
-            if (hasInput) {
                 //Tutorial androidcss.com/android/fetch-json-data-android.
                 InputStream input = urlConnection.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
                 StringBuilder result = new StringBuilder();
                 String line;
-                while ((line = reader.readLine())!= null){
+                while ((line = reader.readLine())!= null) {
                     result.append(line);
+
                 }
 
                 return (result.toString());
-            }//if
-            else {
-                return null;
-            }//Else
+
         }//Try
 
         finally {
