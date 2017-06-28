@@ -68,7 +68,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
 
     @Override
-    public void onBindViewHolder(MovieListAdapter.ViewHolder viewHolder, int position){
+    public void onBindViewHolder(MovieListAdapter.ViewHolder viewHolder, int position) {
         MovieData current = movieArray.get(position);
         viewHolder.textMovieTitle.setText(current.movieTitle);
         viewHolder.textMovieAvgRating.setText("Average user Rating: " + current.movieAvgRating);

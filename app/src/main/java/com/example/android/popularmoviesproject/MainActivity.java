@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
 
             public void setMovies(ArrayList dataPrepArray) {
                 movieArray = dataPrepArray;
-                this.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
 
         }//AsyncTask
