@@ -53,6 +53,14 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         viewHolderCount = 0;
     }
 
+    public void setMovies(ArrayList dataPrepArray) {
+       this.setMovies(dataPrepArray);
+        this.notifyDataSetChanged();
+
+        // movieArray = dataPrepArray;
+        //this.notifyDataSetChanged();
+    }
+
 
     @Override
     public MovieListAdapter.ViewHolder onCreateViewHolder (ViewGroup viewGroup, int viewType){
@@ -85,9 +93,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
                 .error(R.drawable.sample_3)
                 .centerCrop().into(img);
     }
-    public void setMovies(){
 
-    }
 
    @Override
     public int getItemCount(){

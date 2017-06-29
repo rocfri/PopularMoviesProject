@@ -94,17 +94,13 @@ public class MainActivity extends AppCompatActivity
                     dataPrepArray.add(movieData);
                 }//for loop
 
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }//catch
+            setMovies connectData = new setMovies();
+            connectData.setMovies(movieArray);
 
         }//PostExecute
-
-            public void setMovies(ArrayList dataPrepArray) {
-                movieArray = dataPrepArray;
-                adapter.notifyDataSetChanged();
-            }
 
         }//AsyncTask
 
