@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity
         implements MovieListAdapter.ListItemClickListener {
 
     private Toast mToast;
-    private List<MovieData> movieArray;
+    private List<MovieData> moviesArray;
     private RecyclerView recyclerview;
-    MovieListAdapter adapter = new MovieListAdapter(getApplicationContext(), movieArray, this);
+    MovieListAdapter adapter = new MovieListAdapter(MainActivity.this, moviesArray, this);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,9 +80,10 @@ public class MainActivity extends AppCompatActivity
         public void onPostExecute(String movieResult) {
             //JSON
 
+            List<MovieData> dataPrepArray = null;
             try {
                 JSONArray jArray = new JSONArray(movieResult);
-                List<MovieData> dataPrepArray = new ArrayList<>();
+                dataPrepArray = new ArrayList<>();
                 for (int i = 0; i < jArray.length(); ++i) {
                     JSONObject movieObject = jArray.getJSONObject(i);
                     MovieData movieData = new MovieData();
@@ -97,9 +98,7 @@ public class MainActivity extends AppCompatActivity
             } catch (JSONException e) {
                 e.printStackTrace();
             }//catch
-            setMovies connectData = new setMovies();
-            connectData.setMovies(movieArray);
-
+            adapter.setMovies(dataPrepArray);
         }//PostExecute
 
         }//AsyncTask

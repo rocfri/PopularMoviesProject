@@ -31,7 +31,9 @@ import static android.content.ContentValues.TAG;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
 
-    List<MovieData> movieArray = Collections.emptyList();
+    //I suspect this assignment isn't correct...
+    //List<MovieData> movieArray = Collections.emptyList();
+    List<MovieData> movieArray;
     MovieData current;
     private Context context;
 
@@ -45,7 +47,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     }
 
     public MovieListAdapter(Context context, List<MovieData> movieArray , ListItemClickListener listener){
-        this.movieArray = movieArray;
+        movieArray = Collections.EMPTY_LIST;
         this.context = context;
 
         //Click Listener
@@ -53,14 +55,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         viewHolderCount = 0;
     }
 
-    public void setMovies(ArrayList dataPrepArray) {
-       this.setMovies(dataPrepArray);
+    public void setMovies(List<MovieData> dataPrepArray) {
+        movieArray = dataPrepArray;
         this.notifyDataSetChanged();
-
-        // movieArray = dataPrepArray;
-        //this.notifyDataSetChanged();
     }
-
 
     @Override
     public MovieListAdapter.ViewHolder onCreateViewHolder (ViewGroup viewGroup, int viewType){
@@ -84,14 +82,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         viewHolder.textMoviePlot.setText("Plot Synopsis: " + current.moviePlot);
         viewHolder.setPoster(current.moviePoster);
         //viewHolder.img.setImageResource((galleryList.get(i).getImage_ID()));
-    }
+        // I had setPoster auto create method and setter, but it won't take either
 
-    //I had setPoster auto create method and setter, but it won't take either
-    public void setPoster(String moviePoster) {
-        Picasso.with(context).load("https://image.tmdb.org/t/p/w185" + moviePoster)
-                .placeholder(R.drawable.sample_0)
-                .error(R.drawable.sample_3)
-                .centerCrop().into(img);
     }
 
 
@@ -109,6 +101,13 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         TextView textMoviePlot;
 
          ImageView img;
+
+        public void setPoster(String moviePoster) {
+            Picasso.with(context).load("https://image.tmdb.org/t/p/w185" + moviePoster)
+                    .placeholder(R.drawable.sample_0)
+                    .error(R.drawable.sample_3)
+                    .centerCrop().into(img);
+        }
 
         public ViewHolder(View view) {
             super(view);
