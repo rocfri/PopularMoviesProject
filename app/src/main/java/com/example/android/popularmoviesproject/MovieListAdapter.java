@@ -31,9 +31,8 @@ import static android.content.ContentValues.TAG;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
 
-    //I suspect this assignment isn't correct...
-    //List<MovieData> movieArray = Collections.emptyList();
-    List<MovieData> movieArray;
+    List movieArray = Collections.emptyList();
+    //List<MovieData> movieArray;
     MovieData current;
     private Context context;
 
@@ -46,19 +45,21 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         void onListItemClick(int clickedItemIndex);
     }
 
-    public MovieListAdapter(Context context, List<MovieData> movieArray , ListItemClickListener listener){
-        movieArray = Collections.EMPTY_LIST;
+    public void setMovies(List movieArray) {
+
+        this.notifyDataSetChanged();
+    };
+
+    public MovieListAdapter(Context context, List movieArray , ListItemClickListener listener){
+        this.movieArray = movieArray;
         this.context = context;
 
         //Click Listener
         mOnClickListener = listener;
         viewHolderCount = 0;
+
     }
 
-    public void setMovies(List<MovieData> dataPrepArray) {
-        movieArray = dataPrepArray;
-        this.notifyDataSetChanged();
-    }
 
     @Override
     public MovieListAdapter.ViewHolder onCreateViewHolder (ViewGroup viewGroup, int viewType){
@@ -75,14 +76,14 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     @Override
     public void onBindViewHolder(MovieListAdapter.ViewHolder viewHolder, int position) {
-        MovieData current = movieArray.get(position);
+        movieArray.get(position);
         viewHolder.textMovieTitle.setText(current.movieTitle);
         viewHolder.textMovieAvgRating.setText("Average user Rating: " + current.movieAvgRating);
         viewHolder.textMovieDate.setText("Release Date: " + current.movieReleaseDate);
         viewHolder.textMoviePlot.setText("Plot Synopsis: " + current.moviePlot);
         viewHolder.setPoster(current.moviePoster);
         //viewHolder.img.setImageResource((galleryList.get(i).getImage_ID()));
-        // I had setPoster auto create method and setter, but it won't take either
+
 
     }
 

@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity
         implements MovieListAdapter.ListItemClickListener {
 
     private Toast mToast;
-    private List<MovieData> moviesArray;
+    private List<MovieData> dataPrepArray;
     private RecyclerView recyclerview;
-    MovieListAdapter adapter = new MovieListAdapter(MainActivity.this, moviesArray, this);
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         //LayoutManager
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(mAdapter);
 
         new FetchMovieTask().execute(NetworkUtil.buildURL("mdbSortQuery"));
 
@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity
         public void onPostExecute(String movieResult) {
             //JSON
 
-            List<MovieData> dataPrepArray = null;
             try {
                 JSONArray jArray = new JSONArray(movieResult);
                 dataPrepArray = new ArrayList<>();
@@ -98,11 +97,12 @@ public class MainActivity extends AppCompatActivity
             } catch (JSONException e) {
                 e.printStackTrace();
             }//catch
-            adapter.setMovies(dataPrepArray);
+
+            mAdapter.setMovies(dataPrepArray);
         }//PostExecute
 
         }//AsyncTask
-
+        MovieListAdapter mAdapter = new MovieListAdapter(MainActivity.this, dataPrepArray, this);
 
         //Actionbar Spinner
         @Override
