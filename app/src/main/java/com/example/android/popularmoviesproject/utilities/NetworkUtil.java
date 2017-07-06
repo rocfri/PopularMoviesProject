@@ -47,24 +47,16 @@ public class NetworkUtil {
         try {
             urlConnection.setDoOutput(true);
             InputStream in = urlConnection.getInputStream();
-            // int response_code = urlConnection.getResponseCode(); Not sure if need, it appears to be doing the same thing as if statement below.
 
             Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");
 
             boolean hasInput = scanner.hasNext();
-                //Tutorial androidcss.com/android/fetch-json-data-android.
-                InputStream input = urlConnection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-
-                StringBuilder result = new StringBuilder();
-                String line;
-                while ((line = reader.readLine())!= null) {
-                    result.append(line);
-
-                }
-
-                return (result.toString());
+            if (hasInput) {
+                return scanner.next();
+            } else {
+                return null;
+            }
 
         }//Try
 

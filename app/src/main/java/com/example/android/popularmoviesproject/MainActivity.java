@@ -26,10 +26,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,13 +38,13 @@ public class MainActivity extends AppCompatActivity
     private Toast mToast;
     private List<MovieData> dataPrepArray;
     private RecyclerView recyclerview;
-
+    private MovieListAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        MovieListAdapter mAdapter = new MovieListAdapter(MainActivity.this, dataPrepArray, this);
         //Recycle View
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_galleryView);
         recyclerView.setHasFixedSize(true);
@@ -81,7 +79,10 @@ public class MainActivity extends AppCompatActivity
             //JSON
 
             try {
-                JSONArray jArray = new JSONArray(movieResult);
+
+                JSONObject jsonObject = new JSONObject(movieResult);
+                JSONArray jArray = (JSONArray) jsonObject.get("result");
+
                 dataPrepArray = new ArrayList<>();
                 for (int i = 0; i < jArray.length(); ++i) {
                     JSONObject movieObject = jArray.getJSONObject(i);
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity
         }//PostExecute
 
         }//AsyncTask
-        MovieListAdapter mAdapter = new MovieListAdapter(MainActivity.this, dataPrepArray, this);
+
 
         //Actionbar Spinner
         @Override

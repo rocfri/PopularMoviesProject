@@ -32,9 +32,9 @@ import static android.content.ContentValues.TAG;
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
 
     List movieArray = Collections.emptyList();
-    //List<MovieData> movieArray;
     MovieData current;
     private Context context;
+
 
 
     //Click Listener
@@ -46,12 +46,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     }
 
     public void setMovies(List movieArray) {
-
+        this.movieArray = movieArray;
         this.notifyDataSetChanged();
     };
 
+
     public MovieListAdapter(Context context, List movieArray , ListItemClickListener listener){
-        this.movieArray = movieArray;
         this.context = context;
 
         //Click Listener
@@ -91,7 +91,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
    @Override
     public int getItemCount(){
 
-       return movieArray.size();
+       if (movieArray == null) {
+           return 0;
+       } else {
+           return movieArray.size();
+       }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
@@ -106,8 +110,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         public void setPoster(String moviePoster) {
             Picasso.with(context).load("https://image.tmdb.org/t/p/w185" + moviePoster)
                     .placeholder(R.drawable.sample_0)
-                    .error(R.drawable.sample_3)
-                    .centerCrop().into(img);
+                    .error(R.drawable.sample_3);
         }
 
         public ViewHolder(View view) {
@@ -118,7 +121,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
             textMovieDate = (TextView) view.findViewById(R.id.movie_date_dtv);
             textMoviePlot = (TextView) view.findViewById(R.id.movies_blurb_dtv);
             img = (ImageView) view.findViewById(R.id.cellView_img);
-            img = (ImageView) view.findViewById(R.id.main_poster_dtv);
             view.setOnClickListener(this);
 
         }
