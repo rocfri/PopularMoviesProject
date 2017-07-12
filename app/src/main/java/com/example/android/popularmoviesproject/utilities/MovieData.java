@@ -5,7 +5,7 @@ package com.example.android.popularmoviesproject.utilities;
  */
 
 public class MovieData {
-    public int movieAvgRating;
+    public double movieAvgRating;
     public String moviePoster;
     public String movieTitle;
     public String movieReleaseDate;

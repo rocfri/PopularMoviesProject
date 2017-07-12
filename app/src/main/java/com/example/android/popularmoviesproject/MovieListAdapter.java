@@ -24,6 +24,7 @@ import static android.R.attr.onClick;
 import static android.R.attr.thumbPosition;
 import static android.R.attr.width;
 import static android.content.ContentValues.TAG;
+import static com.example.android.popularmoviesproject.R.id.cellView_img;
 
 /**
  * Created on 6/8/2017.
@@ -57,9 +58,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         //Click Listener
         mOnClickListener = listener;
         viewHolderCount = 0;
-
     }
-
 
     @Override
     public MovieListAdapter.ViewHolder onCreateViewHolder (ViewGroup viewGroup, int viewType){
@@ -84,7 +83,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         viewHolder.setPoster(current.moviePoster);
         //viewHolder.img.setImageResource((galleryList.get(i).getImage_ID()));
 
-
     }
 
 
@@ -104,13 +102,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         TextView textMovieAvgRating;
         TextView textMovieDate;
         TextView textMoviePlot;
-
          ImageView img;
 
-        public void setPoster(String moviePoster) {
-            Picasso.with(context).load("https://image.tmdb.org/t/p/w185" + moviePoster)
-                    .placeholder(R.drawable.sample_0)
-                    .error(R.drawable.sample_3);
+        public void setPoster(String p) {
+            Picasso.with(context).load("https://image.tmdb.org/t/p/w185" + p)
+                    .into(img);
         }
 
         public ViewHolder(View view) {
@@ -120,7 +116,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
             textMovieAvgRating = (TextView) view.findViewById(R.id.average_rating_dtv);
             textMovieDate = (TextView) view.findViewById(R.id.movie_date_dtv);
             textMoviePlot = (TextView) view.findViewById(R.id.movies_blurb_dtv);
-            img = (ImageView) view.findViewById(R.id.cellView_img);
+           img = (ImageView) view.findViewById(R.id.cellView_img);
             view.setOnClickListener(this);
 
         }

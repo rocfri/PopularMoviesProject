@@ -12,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 
 import android.widget.ImageView;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recyclerview;
     private MovieListAdapter mAdapter;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,6 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(mAdapter);
 
         new FetchMovieTask().execute(NetworkUtil.buildURL("mdbSortQuery"));
-
     }
 
     public class FetchMovieTask extends AsyncTask<URL, Void, String> {
@@ -79,16 +80,15 @@ public class MainActivity extends AppCompatActivity
             //JSON
 
             try {
-
                 JSONObject jsonObject = new JSONObject(movieResult);
-                JSONArray jArray = (JSONArray) jsonObject.get("result");
+                JSONArray jArray = (JSONArray) jsonObject.getJSONArray("results");
 
                 dataPrepArray = new ArrayList<>();
                 for (int i = 0; i < jArray.length(); ++i) {
                     JSONObject movieObject = jArray.getJSONObject(i);
                     MovieData movieData = new MovieData();
                     movieData.moviePoster = movieObject.getString("poster_path");
-                    movieData.movieAvgRating = movieObject.getInt("vote_average");
+                    movieData.movieAvgRating = movieObject.getDouble("vote_average");
                     movieData.movieTitle = movieObject.getString("title");
                     movieData.movieReleaseDate = movieObject.getString("release_date");
                     movieData.moviePlot = movieObject.getString("overview");
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity
                 e.printStackTrace();
             }//catch
 
-            mAdapter.setMovies(dataPrepArray);
+            mAdapter = new MovieListAdapter(MainActivity.this, dataPrepArray, MainActivity.this);;
         }//PostExecute
 
         }//AsyncTask
